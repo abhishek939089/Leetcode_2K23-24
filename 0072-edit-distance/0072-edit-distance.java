@@ -1,27 +1,27 @@
 class Solution {
     public int minDistance(String word1, String word2) {
-        int n = word1.length();
-        int m = word2.length();
-
-        int[][] dp = new int[n + 1][m + 1];
-
-        for (int j = 0; j <= m; j++) {
-            dp[0][j] = j;
+        char[] str1 = word1.toCharArray();
+        char[] str2 = word2.toCharArray();
+        int temp[][] = new int[str1.length+1][str2.length+1];
+        for(int i=0; i<temp[0].length; i++) {
+            temp[0][i] = i;
         }
-
-        for (int i = 1; i <= n; i++) {
-            dp[i][0] = i;
+        for(int i=0; i<temp.length; i++) {
+            temp[i][0] = i;
         }
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1];
-                } else {
-                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+        for(int i=1; i<=str1.length; i++) {
+            for(int j=1; j<=str2.length; j++) {
+                if(str1[i-1] == str2[j-1]) {
+                    temp[i][j] = temp[i-1][j-1];
+                }else{
+                    temp[i][j] = 1+min(temp[i-1][j-1], temp[i-1][j], temp[i][j-1]);
                 }
             }
         }
-        return dp[n][m];
+        return temp[str1.length][str2.length];
+    }
+    int min(int a, int b, int c) {
+        int l = Math.min(a,b);
+        return Math.min(l,c);
     }
 }
