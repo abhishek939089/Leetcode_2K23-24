@@ -1,34 +1,31 @@
 class Solution {
-    public List<String> letterCombinations(String digits) {
-        List<String> combinations = new ArrayList<>();
-        if (digits == null || digits.isEmpty()) {
-            return combinations;
+    Map<String, String> phone = new HashMap<>(){{
+        put("2","abc");
+        put("3","def");
+        put("4","ghi");
+        put("5","jkl");
+        put("6","mno");
+        put("7","pqrs");
+        put("8","tuv");
+        put("9","wxyz");
+    }};
+    List<String> ans = new ArrayList<>();
+    public void backtrack(String combination, String next_digits) {
+        if(next_digits.length() == 0) {
+            ans.add(combination);
+        }else {
+            String digit = next_digits.substring(0,1);
+            String letters = phone.get(digit);
+            for(int i=0; i<letters.length(); i++) {
+                String letter = letters.substring(i, i+1);
+                backtrack(combination + letter, next_digits.substring(1));
+            }
         }
-        String[] lettersAndNumbersMappings = new String[]{
-                "Anirudh",
-                "is awesome",
-                "abc",
-                "def",
-                "ghi",
-                "jkl",
-                "mno",
-                "pqrs",
-                "tuv",
-                "wxyz"
-        };
-        findCombinations(combinations, digits, new StringBuilder(), 0, lettersAndNumbersMappings);
-        return combinations;
     }
-
-    private static void findCombinations(List<String> combinations, String digits, StringBuilder previous, int index, String[] lettersAndNumbersMappings) {
-        if (index == digits.length()) {
-            combinations.add(previous.toString());
-            return;
+    public List<String> letterCombinations(String digits) {
+        if(digits.length() != 0) {
+            backtrack("", digits);
         }
-        String letters = lettersAndNumbersMappings[digits.charAt(index) - '0'];
-        for (char c : letters.toCharArray()) {
-            findCombinations(combinations, digits, previous.append(c), index + 1, lettersAndNumbersMappings);
-            previous.deleteCharAt(previous.length() - 1);
-        }
+        return ans;
     }
 }
