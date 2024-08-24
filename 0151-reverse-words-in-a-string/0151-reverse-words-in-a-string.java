@@ -17,12 +17,13 @@ class Solution {
             st.push(str);
         }
         
-        String ans = "";
-        while(st.size() != 1) {
-            ans += st.peek() + " ";
-            st.pop();
+        StringBuilder ans = new StringBuilder();
+        while(!st.isEmpty()) {
+            ans.append(st.pop());
+            if(!st.isEmpty()) {
+                ans.append(" ");
+            }
         }
-        ans += st.peek();
-        return ans;
+        return ans.toString();
     }
 }
